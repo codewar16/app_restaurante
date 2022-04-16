@@ -13,7 +13,23 @@
 </head>
 
 <body>
+<?php
+session_start();
+require("conexion/personal.php");
+require("conexion/conexion_i.php");
+header("Content-Type: text/html;charset=utf-8");
+$fechaActual = date('Y-m-d');
 
+//si la cuenta esta nulo lo devuelve
+if ($_SESSION['estado'] == null) {
+    echo "<script>location.href='index.php'</script>";
+    } else {
+
+        $estado         = $_SESSION['estado'];
+        $usuario        = $_SESSION['usuario'];
+        $nombresucursal = $_SESSION['nombresucursal'];
+    }
+?>
     <nav class="navbar navbar-expand-lg navbar-light bg-sotsfer fixed-top">
         <a class="navbar-brand titulo-empresa" href="#">Sotsfer - Restaurante</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,61 +72,88 @@
     </nav>
     &nbsp;&nbsp;&nbsp;
 
+    <?php if (isset($_POST['enviar'])) {
+        $nombres = $_POST['cedula'];
+        $sqComprobarRepetido = $conexion->query("SELECT * FROM usuarios WHERE cedula = '" . $_POST['cedula'] . "'  ");
+        error_reporting(E_ERROR);
+        $NumsqComprobarRepetido = mysqli_num_rows($sqComprobarRepetido);
 
+        if (($_POST['nombres'] == null) || ($_POST['apellidos'] == null) || ($_POST['telefono'] == null) || ($_POST['direccion'] == null)) { ?>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="well" style="overflow: auto;color:green">
+                <div class="col-md-12">
+                <p>ADVERTENCIA : DATOS ENVIADOS ESTÁN VACIOS</p>
+                </div>
+            </div>
+            </div>
+        <?php } else if ($NumsqComprobarRepetido > 0) { ?>
+
+            <div class="row">
+            <div class="panel panel-warnign col-md-12 col-sm-12 col-xs-12">
+                <div class="well" style="overflow: auto;color:red">
+                <div class="col-md-12">
+                    <p>ERROR : Este nombre ya est&aacute; registrado..</p>
+                </div>
+                </div>
+            </div>
+            </div>
+            <?php } else {
+            $paginas = new Personal();
+            $paginas->registroClientes();
+            ?>
+              <div class="row">
+            <div class="panel panel-info col-md-12 col-sm-12 col-xs-12">
+                <div class="well" style="overflow: auto;color:blue">
+                <div class="col-md-12">
+                    <p>OK : Registrado con &eacute;sito.!</p>
+                </div>
+                </div>
+            </div>
+            </div>
+        <?php
+        }
+    }
+    ?>
 
     <div class="container container-sotsfer">
         <h2>Admnistración de clientes</h2>
         <p class="text-peq-sotsfer">Ingreso de nuevo cliente/consulta</p>
-        <form action="/action_page.php" class="">
+        <form action="" method="POST" class="">
             <div class="form-row">
                 <div class="col-md-3">
                     <label for="uname" class="bold">Cédula:</label>
-                    <input type="text" class="form-control" id="email" placeholder="Ingrese cédula" name="email">
+                    <input type="text" class="form-control" id="cedula" placeholder="Ingrese cédula" name="cedula">
                 </div>
-                <div class="col">
-                    <label for="uname" class="bold">Nombre completo:</label>
-                    <input type="password" class="form-control" placeholder="Ingrese nombre completo" name="pswd">
+                <div class="col-md-3">
+                    <label for="uname" class="bold">Nombres:</label>
+                    <input type="text" class="form-control" placeholder="Ingrese nombres" name="nombres">
+                </div>
+                <div class="col-md-3">
+                    <label for="uname" class="bold">Aprllidos:</label>
+                    <input type="text" class="form-control" placeholder="Ingrese apellidos" name="apellidos">
                 </div>
 
             </div>
             <div class="form-row">
-
                 <div class="col-md-3">
                     <label for="uname" class="bold">Teléfono:</label>
-                    <input type="password" class="form-control" placeholder="Ingrese teléfono" name="pswd">
+                    <input type="number" class="form-control" placeholder="Ingrese teléfono" name="telefono">
                 </div>
                 <div class="col">
                     <label for="uname" class="bold">Dirección:</label>
-                    <input type="password" class="form-control" placeholder="Ingrese dirección" name="pswd">
+                    <input type="text" class="form-control" placeholder="Ingrese dirección" name="direccion">
+                    <input type="hidden" class="form-control" value="2" name="tipoidentificacion">
+                    <input type="hidden" class="form-control" value="01-Normal" name="nombretipocliente">
+                    <input type="hidden" class="form-control" value="1" name="idsucursal">
+                    <input type="hidden" class="form-control" value="<?php echo $fechaActual ?>" name="fechareg">
                 </div>
             </div>
-            <!--<div class="form-group">
-                <label for="uname">Nombre:</label>
-                <input type="text" class="form-control" id="uname" placeholder="Enter username" name="uname" required>
-
-            </div>
-            <div class="form-group">
-                <label for="pwd">Dirección:</label>
-                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
-
-            </div>
-            <p>datos obligatorios:</p>
             <div class="form-row">
                 <div class="col">
-                    <label for="uname">Cédula:</label>
-                    <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
-                </div>
-                <div class="col">
-                    <label for="uname">Teléfono:</label>
-                    <input type="password" class="form-control" placeholder="Enter password" name="pswd">
-                </div>
-            </div>-->
-            <div class="form-row">
-                <div class="col">
-                    <button type="submit" class="btn btn-primary btn-sotsfer">Enviar</button>
+                    <button type="submit" name="enviar" class="btn btn-primary btn-sotsfer">Enviar</button>
                     <button type="submit" class="btn btn-primary btn-sotsfer float-right">Cancelar</button>
                 </div>
-
             </div>
 
         </form>
@@ -125,42 +168,23 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
-                        <th>Age</th>
-                        <th>City</th>
-                        <th>Country</th>
-
                     </tr>
                 </thead>
                 <tbody>
+                    
+            <?php
+                $objpersonal = new Personal();
+                $personal = $objpersonal->consultaClientes();
+                error_reporting(E_ERROR);
+                if (sizeof($personal) > 0) {
+                foreach ($personal as $row) { ?>
                     <tr>
-                        <td>1</td>
-                        <td>Anna</td>
-                        <td>Pitt</td>
-                        <td>35</td>
-                        <td>New York</td>
-                        <td>USA</td>
-
+                        <td><?php echo $row['nombre']; ?></td>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>liseth</td>
-                        <td>Pitt</td>
-                        <td>35</td>
-                        <td>New York</td>
-                        <td>USA</td>
-
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Jonathan</td>
-                        <td>Pitt</td>
-                        <td>35</td>
-                        <td>New York</td>
-                        <td>USA</td>
-
-                    </tr>
+                <?php }
+                } else { ?>
+                <option value="" selected disabled>No hay clientes registradas</option>
+            <?php } ?>
                 </tbody>
             </table>
         </div>
