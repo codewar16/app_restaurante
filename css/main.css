@@ -6856,9 +6856,18 @@ button.bg-danger:focus {
 }
 
 .titulo-empresa {
-  color: white !important;
   font-weight: bold;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  color: #336699 !important;
+  border-radius: 20px;
 }
+
+.salida-empresa{
+  border-radius: 20px !important;
+}
+
 .padding-sotsfer {
   padding-top: 15px !important;
 }
@@ -6920,6 +6929,8 @@ button.bg-danger:focus {
      display: none;
     }
 }
+
+
 /* ------------------------- SOTSFER ENTERPRISE - CSS ---------------------------------*/
 a.bg-light:hover,
 a.bg-light:focus,

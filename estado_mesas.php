@@ -76,10 +76,12 @@
                         <td>
                             <div class="col-sm-3 padding-sotsfer">
                                 <div class="card bg-success text-white">
-                                    <div class="card-header bold">1</div>
+                                    <div class="card-header bold">1
+                                    <!-- <button class="btn btn-warning">Marcar ocupada</button> -->
+                                    </div>
                                     <div class="card-body">
-                                        <a title="Asignar mesa" href="#" class="btn btn-black text-light"><i class="bi bi-plus-circle" style="font-size: 1.5em;"></i></a>
-                                        <a title="Asignar mesa" href="#" class="btn btn-black text-light"><i class="bi bi-plus-circle" style="font-size: 1.5em;"></i></a>
+                                    <a title="Asignar mesa" href="#" class="btn btn-black text-light"><i class="bi bi-play-circle-fill" style="font-size: 1.5em;"></i></a>
+                                        <a data-toggle="modal" data-target="#myModal" title="Realizar pedido" href="#" class="btn btn-black text-light"><i class="bi bi-receipt-cutoff" style="font-size: 1.5em;"></i></a>
                                         <a title="Asignar mesa" href="#" class="btn btn-black text-light"><i class="bi bi-plus-circle" style="font-size: 1.5em;"></i></a>
                                     </div>
                                 </div>
@@ -186,40 +188,63 @@
             </table>
         </div>
 
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">.col-md-4</div>
-                    <div class="col-md-4 ml-auto">.col-md-4 .ml-auto</div>
+
+
+    </div>
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        Open modal
+    </button> -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="myModal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pedido</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="row">
-                    <div class="col-md-3 ml-auto">.col-md-3 .ml-auto</div>
-                    <div class="col-md-2 ml-auto">.col-md-2 .ml-auto</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 ml-auto">.col-md-6 .ml-auto</div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-9">
-                        Level 1: .col-sm-9
+                <div class="modal-body">
+                    <div class="container-fluid">
                         <div class="row">
-                            <div class="col-8 col-sm-6">
-                                Level 2: .col-8 .col-sm-6
-                            </div>
-                            <div class="col-4 col-sm-6">
-                                Level 2: .col-4 .col-sm-6
+                            <div class="col-md-4">.col-md-4</div>
+                            <div class="col-md-4 ml-auto">.col-md-4 .ml-auto</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 ml-auto">.col-md-3 .ml-auto</div>
+                            <div class="col-md-2 ml-auto">.col-md-2 .ml-auto</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 ml-auto">.col-md-6 .ml-auto</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                Level 1: .col-sm-9
+                                <div class="row">
+                                    <div class="col-8 col-sm-6">
+                                        Level 2: .col-8 .col-sm-6
+                                    </div>
+                                    <div class="col-4 col-sm-6">
+                                        Level 2: .col-4 .col-sm-6
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
-
     </div>
 
-
-
-
+    <script>
+        $('#myModal').on('shown.bs.modal', function() {
+            $('#myInput').trigger('focus')
+        })
+        
+    </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
